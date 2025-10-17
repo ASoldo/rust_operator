@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - crd.yaml        
   - operator.yaml
-  - frontend.yaml
+  - site.yaml
 
 # override the image tag
 images:
