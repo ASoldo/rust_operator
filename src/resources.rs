@@ -98,7 +98,7 @@ pub fn desired_deployment(
                 spec: Some(PodSpec {
                     containers: vec![Container {
                         name: "nginx".into(),
-                        image: Some("nginx:1.27-alpine".into()),
+                        image: Some("nginx:1.29.2-alpine".into()),
                         ports: Some(vec![ContainerPort {
                             container_port: 80,
                             ..Default::default()
