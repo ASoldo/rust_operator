@@ -1,16 +1,16 @@
 # Rust Operator
 
 Rust-based Kubernetes operator that provisions a simple static web frontend from a custom resource.  
-It manages the full stack - ConfigMap (HTML), Deployment, Service, and optional Ingress—based on the `RustOperator` spec.
+It manages the full stack - ConfigMap (HTML), Deployment, Service, and optional Ingress - based on the `RustOperator` spec.
 
 ## Project Layout
 
-- `src/main.rs` — entrypoint that wires tracing and boots the controller.
-- `src/crd.rs` — CRD type definitions plus a helper to print the generated YAML.
-- `src/controller.rs` — reconciliation logic, status updates, and finalizer handling.
-- `src/resources.rs` — builders for ConfigMap/Deployment/Service/Ingress plus shared helpers.
-- `k8s/base` — base Kustomize manifests: CRD, operator deployment/RBAC, sample frontend CR.
-- `k8s/overlays/dev` — overlay that pins the controller image to the locally-built tag and disables pulls.
+- `src/main.rs` - entrypoint that wires tracing and boots the controller.
+- `src/crd.rs` - CRD type definitions plus a helper to print the generated YAML.
+- `src/controller.rs` - reconciliation logic, status updates, and finalizer handling.
+- `src/resources.rs` - builders for ConfigMap/Deployment/Service/Ingress plus shared helpers.
+- `k8s/base` - base Kustomize manifests: CRD, operator deployment/RBAC, sample frontend CR.
+- `k8s/overlays/dev` - overlay that pins the controller image to the locally-built tag and disables pulls.
 
 ## Requirements
 
@@ -84,12 +84,12 @@ Pass `PRINT_CRD=1 cargo run --quiet` to print the CRD YAML to stdout.
 
 ## CRD Reference (`rootster.xyz/v1`)
 
-- `spec.message` — echoed into `.status.observed_message`.
-- `spec.html` — HTML served via nginx (default static greeting).
-- `spec.replicas` — nginx replica count.
-- `spec.service_type` — `ClusterIP` (default) or `NodePort`.
-- `spec.ingress_host` — optional host that triggers ingress creation.
-- `spec.tls_secret_name` — optional TLS secret for the ingress.
+- `spec.message` - echoed into `.status.observed_message`.
+- `spec.html` - HTML served via nginx (default static greeting).
+- `spec.replicas` - nginx replica count.
+- `spec.service_type` - `ClusterIP` (default) or `NodePort`.
+- `spec.ingress_host` - optional host that triggers ingress creation.
+- `spec.tls_secret_name` - optional TLS secret for the ingress.
 
 Status fields include `ready_replicas` and a `Ready` condition updated by the controller.
 
