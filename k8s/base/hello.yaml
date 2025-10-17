@@ -1,0 +1,10 @@
+apiVersion: rootster.xyz/v1
+kind: RustOperator
+metadata:
+  name: site
+  namespace: default
+spec:
+  message: "Ship it."
+  html: "<h1>Hello from Rust operator</h1>"
+  replicas: 1
+  service_type: NodePort

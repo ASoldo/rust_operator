@@ -1,0 +1,93 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rust-operator
+  namespace: default
+
+---
+# Cluster-wide because your CRD is cluster-scoped API and you watch across namespaces.
+# If you want to lock to a namespace, change the rules and use Role/RoleBinding.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: rust-operator
+rules:
+  # Our CRD
+  - apiGroups: ["rootster.xyz"]
+    resources: ["rustoperators"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: ["rootster.xyz"]
+    resources: ["rustoperators/status", "rustoperators/finalizers"]
+    verbs: ["get", "update", "patch"]
+
+  # Children we manage
+  - apiGroups: [""]
+    resources: ["configmaps", "services"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  # Optional: events if you start emitting them
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: rust-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: rust-operator
+subjects:
+  - kind: ServiceAccount
+    name: rust-operator
+    namespace: default
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust-operator
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-operator
+  template:
+    metadata:
+      labels:
+        app: rust-operator
+    spec:
+      serviceAccountName: rust-operator
+      containers:
+        - name: controller
+          image: rust-operator:dev 
+          imagePullPolicy: Never
+          env:
+            - name: RUST_LOG
+              value: info
+          # Give it a few resources because why not be civilized
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+      securityContext:
+        fsGroup: 65532
+

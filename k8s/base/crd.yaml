@@ -1,0 +1,85 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: rustoperators.rootster.xyz
+spec:
+  group: rootster.xyz
+  names:
+    categories: []
+    kind: RustOperator
+    plural: rustoperators
+    shortNames: []
+    singular: rustoperator
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns: []
+    name: v1
+    schema:
+      openAPIV3Schema:
+        description: Auto-generated derived type for RustOperatorSpec via `CustomResource`
+        properties:
+          spec:
+            properties:
+              html:
+                default: ''
+                description: Inline HTML -> ConfigMap index.html
+                type: string
+              ingress_host:
+                default: ''
+                description: Optional Ingress host. If set, an Ingress will be created.
+                type: string
+              message:
+                description: Echoed into status
+                type: string
+              replicas:
+                default: 1
+                description: nginx replicas
+                type: integer
+              service_type:
+                default: ClusterIP
+                description: '"ClusterIP" or "NodePort"'
+                type: string
+              tls_secret_name:
+                default: ''
+                description: Optional TLS secret name for the Ingress
+                type: string
+            required:
+            - message
+            type: object
+          status:
+            nullable: true
+            properties:
+              conditions:
+                items:
+                  properties:
+                    message:
+                      nullable: true
+                      type: string
+                    reason:
+                      nullable: true
+                      type: string
+                    status:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - status
+                  - type
+                  type: object
+                nullable: true
+                type: array
+              observed_message:
+                nullable: true
+                type: string
+              ready_replicas:
+                nullable: true
+                type: integer
+            type: object
+        required:
+        - spec
+        title: RustOperator
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
