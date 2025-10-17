@@ -5,6 +5,40 @@ metadata:
   namespace: default
 spec:
   message: "Ship it."
-  html: "<h1>Hello from Rust operator</h1>"
+  html: |- 
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rust Operator Status</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+        <style type="text/tailwindcss">
+          @theme {
+            --color-success: #16a34a;
+            --color-warning: #d97706;
+          }
+        </style>
+      </head>
+      <body class="min-h-screen bg-gray-50 text-gray-800 flex items-center justify-center p-4">
+
+        <div class="max-w-lg w-full bg-white shadow-lg rounded-lg p-6 space-y-6">
+          <h1 class="text-4xl font-bold text-center">Rust Operator Status</h1>
+
+          <div class="grid grid-cols-1 gap-4">
+            <div class="flex items-center justify-between p-4 bg-gray-100 rounded">
+              <span class="font-semibold">Operator Installed</span>
+              <span class="text-success">✅ Yes</span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-gray-100 rounded">
+              <span class="font-semibold">App Reachable</span>
+              <span class="text-success">✅ Yes</span>
+            </div>
+          </div>
+        </div>
+
+      </body>
+      </html>
+
   replicas: 1
   service_type: NodePort
