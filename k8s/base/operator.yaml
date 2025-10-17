@@ -32,7 +32,7 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 
-  # Optional: events if we start emitting them
+  # Optional: events
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["create", "patch"]

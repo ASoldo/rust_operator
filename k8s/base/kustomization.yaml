@@ -6,7 +6,6 @@ resources:
   - operator.yaml
   - site.yaml
 
-# override the image tag
 images:
   - name: rust-operator
     newName: rust-operator
