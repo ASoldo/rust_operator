@@ -6,7 +6,7 @@ resources:
   - operator.yaml
   - frontend.yaml
 
-# override the image tag if you want
+# override the image tag
 images:
   - name: rust-operator
     newName: rust-operator

@@ -13,7 +13,7 @@ kind: ClusterRole
 metadata:
   name: rust-operator
 rules:
-  # Our CRD
+  # CRD
   - apiGroups: ["rootster.xyz"]
     resources: ["rustoperators"]
     verbs: ["get", "list", "watch", "create", "update", "patch"]
@@ -32,7 +32,7 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 
-  # Optional: events if you start emitting them
+  # Optional: events if we start emitting them
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["create", "patch"]
@@ -75,7 +75,6 @@ spec:
           env:
             - name: RUST_LOG
               value: info
-          # Give it a few resources because why not be civilized
           resources:
             requests:
               cpu: "50m"
